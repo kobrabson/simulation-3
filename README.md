@@ -54,7 +54,7 @@ You have already created a React application as part of setting up the Github re
 7) Run `nodemon` and make sure your server runs.
 
 ## Database
-1) Run `npm i massive dotenv`
+1) Run `npm i massive dotenv bcrypt`
 2) Create an `.env` file at the root of the project.
 3) Open your `.gitignore` and add the `.env` file to it.
 4) Open `server/index.js` and require `masssive` and `dotenv` (make sure to invoke config on `dotenv`).
@@ -64,7 +64,8 @@ You have already created a React application as part of setting up the Github re
 8) Set up `massive` in your server using the connection string you saved in your `.env` file.
 9) Make sure to run `nodemon` again and make sure your database is connecting.
 10) Copy the connection string from your `.env` file into `SQLTabs` and create the users table and the posts table.
-11) It's helpful to insert some dummy data into your database at this point to help you test as you go along. 
+11) Update the password column on your users table to datatype text.
+12) It's helpful to insert some dummy data into your database at this point to help you test as you go along. 
 
 # Part 1
 
@@ -130,6 +131,7 @@ Now that routing is set up, the first thing you will do is set up the authentica
 * Create the 'Login' and 'Register' buttons in the Auth view.
 * Write a POST endpoint in your server for registering.
   * The endpoint should pull the username and password off of the body.
+  * The endpoint should hash the password using bcrpyt.
   * The endpoint create a new user in the database.
   * The endpoint should respond with the newly created user.
 * Write a method in Auth that sends an `axios` request to the endpoint you just wrote.
@@ -138,6 +140,7 @@ Now that routing is set up, the first thing you will do is set up the authentica
   * Set up the 'Register' button to fire the method.
 * Write a POST endpoint in your server for logging in.
   * The endpoint should pull the username and password off of the body.
+  * The endpoint should compare the password with the hashed password from the database.
   * The endpoint should pull the user with the matching username and password out of the database.
   * The endpoint should respond with the user.
 * Write a method in Auth that sends an `axios` request to the endpoint you just wrote.
@@ -188,7 +191,7 @@ Finally you will setup your Auth component to update Redux state.
 
 <b>Live example [here](https://helo.devmountain.com/v2/part2/#/)</b>
 
-In this part you will add the ability to view posts and create new ones.
+In this part you will add the ability to view posts, create new ones and delete them.
 
 Functionality of the Dashboard View:
 * A user should be able to see all the posts created on Helo.
@@ -291,6 +294,26 @@ Now you will add the ability to add a new post.
   * The `axios` request should include the user id as a parameter.
   * The request should send all the values stored in state in the body.
   * Once the response comes back from the server, redirect the user to the Dashboard.
+  
+## Step 6
+Now you will add the ability to delete a post.
+
+* On the Post component create a 'Delete' button.
+   * This can be an actual 'Delete Post' button or just an X. 
+   * It should route to Dashboard when clicked.
+* Next you will need to connect to Redux and pull the user id off of Redux state.
+  * Bring in the `connect` method from `react-redux`.
+  * Write the `mapStateToProps` function at the bottom of the file. Pull the user id off of Redux State.
+  * Invoke the `connect` method, passing in the `mapStateToProps` function and then invoking it with the component name as an argument.
+  * The delete button should only be visible on posts the current user had created by compairing user and author id.
+* Write a DELETE endpoint in your server.
+  * The endpoint should accept a parameter for the post id.
+  * The endpoint should respond with the updated list of posts once it has deleted the post from the database.
+* Write a method in Dashboard that sends a request to the endpoint you just wrote.
+  * Pass this function to the Post component through props. 
+  * It should be used when you press the Delete button
+  * The `axios` request should include the post id as a parameter.
+  * Once the response comes back from the server, update the posts array on state.
 
 # Part 3
 
