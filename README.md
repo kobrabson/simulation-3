@@ -157,7 +157,7 @@ Your users can now register and login, but your front end immediately forgets wh
 * Now open `store.js` and bring in `createStore` from `redux` and the `reducer` from `reducer.js`. 
    * Create a store using the reducer you just brought in.
    * Export that store.
-* Open `src/App.js` and bring in the `Provider` from `react-redux` and the `store` from `store.js`.
+* Open `src/index.js` and bring in the `Provider` from `react-redux` and the `store` from `store.js`.
    * Wrap the `Provider` component around the `HashRouter` component.
    * Pass the `store` to the `Provider`.
 * Go to Nav and bring in connect from `react-redux`.
