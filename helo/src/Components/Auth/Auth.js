@@ -8,8 +8,7 @@ export class Auth extends Component {
         this.state = {
             username: '',
             password:'',
-            profilePic: '',
-            newUser: false
+
         }
     }
 
