@@ -7,9 +7,9 @@ import './Nav.css'
 function Nav() {
     return (
         <div>
-            <button  > Home </button>
-            <button  > New Post </button>
-            <button  > Dashboard </button>
+            <button  >  <Link to='/dashboard'> Home </Link></button>
+            <button  > <Link to='/new'> New Post </Link> </button>
+            <button  > <Link to='/'> Dashboard </Link> </button>
         </div>
     )
 }

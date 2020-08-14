@@ -59,13 +59,13 @@ export class Auth extends Component {
                     onChange={e => this.changeHandle(e)} 
                     name='username'
                     type='text'
-                    // value={username}
+                    value={username}
                     placeholder='Username' />
                     <input 
                     onChange={e => this.changeHandle(e)}
                     name='password'
                     type='password'
-                    // value={password}
+                    value={password}
                     placeholder='Password' />
                     <div className='btn-container' >
                         <button 
