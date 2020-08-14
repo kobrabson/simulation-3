@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux'
 
 export class Auth extends Component {
     constructor(){
@@ -19,15 +20,17 @@ export class Auth extends Component {
     }
 
     changeHandle = (e) => {
-        e.target.name = e.target.value
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     login = () => {
         const { username, password } = this.state;
-        axios.post('/api/login', { username, password })
+        axios.post('/auth/login', { username, password })
         .then(res => {
             this.props.loginUser(res.data);
-            // this.props.history.push('/dashboard')
+            this.props.history.push('/dashboard')
         })
         .catch(err => {
             console.log(err);
@@ -36,10 +39,10 @@ export class Auth extends Component {
 
     register = () => {
         const { username, password, profilePic } = this.state;
-        axios.post('/api/register', { username, password, profilePic })
+        axios.post('/auth/register', { username, password, profilePic })
         .then(res => {
             this.props.loginUser(res.data)
-            // this.props.history.push('dashboard')
+            this.props.history.push('dashboard')
         })
         .catch(err => {
             console.log(err)
@@ -49,6 +52,7 @@ export class Auth extends Component {
 
 
     render() {
+        const {username, password, profilePic} = this.state
         return (
             <div className='auth' >
                 <div className='auth-container' >
@@ -79,19 +83,19 @@ export class Auth extends Component {
                     <input onChange={e => this.changeHandle(e)}
                     name='username'
                     type='text'
-                    // value={username}
+                    value={username}
                     placeholder='Enter Username' ></input>
                     <input 
                     onChange={e => this.changeHandle(e)}
                     name='profilePic'
                     type='text'
-                    // value={profilePic}
+                    value={profilePic}
                     placeholder='Add a Picture' ></input>
                     <input 
                     onChange={e => this.changeHandle(e)}
                     name='password'
                     type='password'
-                    // value={password}
+                    value={password}
                     password = 'Password' ></input>
                     <div className='btn-container' >
                         <button onClick={ this.register } > Register </button>
@@ -105,4 +109,6 @@ export class Auth extends Component {
     }
 }
 
-export default Auth
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps, {loginUser}) (Auth)

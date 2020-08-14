@@ -7,6 +7,7 @@ import './Nav.css'
 function Nav() {
     return (
         <div>
+            {/* <h1>Welcome, {this.props.users.username} </h1> */}
             <button  >  <Link to='/dashboard'> Home </Link></button>
             <button  > <Link to='/new'> New Post </Link> </button>
             <button  > <Link to='/'> Dashboard </Link> </button>
@@ -14,4 +15,8 @@ function Nav() {
     )
 }
 
-export default Nav
+// console.log(props)
+
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps) (Nav)
