@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { default: Post } = require('../src/Components/Post/Post');
 
 module.exports = {
   login: async (req, res) => {
@@ -48,6 +49,46 @@ module.exports = {
       } else {
           res.sendStatus(404)
       }
-  }
+  },
+
+  searchPosts: async (req, res) => {
+    const { userposts, search } = req.query;
+    const db = req.app.get("db");
+    const allPosts = await db.get_posts();
+    let filtered = null;
+    console.log(allPosts);
+
+    if (userposts === "true" && search) {
+      filtered = allPosts.filter((e, i) => {
+        if (e.title.includes(search)) return true;
+      });
+    } else if (userposts === "false" && search) {
+      filtered = allPosts.filter((e, i) => {
+        if (e.author_id !== req.session.id && e.title.includes(search))
+          return true;
+      });
+    } else if (userposts === "true" && !search) {
+      filtered = allPosts;
+    } else {
+      filtered = allPosts.filter((e, i) => {
+        if (e.author_id !== req.session.userId) return true;
+      });
+    }
+    res.status(200).send(filtered);
+  },
+
+  getPost: async (req, res) => {
+    const { id } = req.params;
+    const db = req.app.get("db");
+    let post = await db.get_post(+id);
+    post = post[0];
+    res.status(200).send(post);
+  },
+  addPost: (req, res) => {
+    const { title, image, content } = req.body;
+    const db = req.app.get("db");
+    db.add_post(title, image, content, req.session.userId);
+    res.sendStatus(200);
+  },
 
 }

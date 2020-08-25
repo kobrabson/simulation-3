@@ -27,10 +27,15 @@ massive({
 
 app.use(express.json());
 
-// endpoints
+// endpoints auth
 app.post('/auth/login', ctrl.login)
 app.post('/auth/register', ctrl.register)
 app.get('/auth/logout', ctrl.logout)
 app.get('/auth/user', ctrl.getUser)
+
+// endpoints 
+app.get("/api/posts/", controller.searchPosts);
+app.get("/api/post/:id", controller.getPost);
+app.post("/api/post/", controller.addPost);
 
 app.listen(SERVER_PORT, ()=> console.log(`Connected to port ${SERVER_PORT}`))
